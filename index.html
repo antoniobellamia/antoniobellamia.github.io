@@ -3,12 +3,14 @@
 
 <head>
     <style>
+        /* Stile per il corpo della pagina: imposta l'immagine di sfondo del cielo */
         body {
             background-image: url("https://static3.depositphotos.com/1003791/163/i/450/depositphotos_1633171-stock-photo-blue-sky-seamless-pattern.jpg");
-            background-size: cover;
-            animation: scrollBackground 10s linear infinite;
+            background-size: cover; /* Fa in modo che l'immagine copra tutto lo schermo */
+            animation: scrollBackground 10s linear infinite; /* Avvia l'animazione CSS dello sfondo in loop infinito */
         }
 
+        /* Definizione dell'animazione CSS per far scorrere lo sfondo dall'alto verso il basso */
         @keyframes scrollBackground {
             0% {
                 background-position: 0 100%;
@@ -19,100 +21,109 @@
             }
         }
 
+        /* Stile per il bersaglio (boss) in alto */
         #target {
-            width: 200px;
-            height: 200px;
+            width: 200px; /* Larghezza del bersaglio */
+            height: 200px; /* Altezza del bersaglio */
             margin: 0;
-            background-image: url("https://i.imgflip.com/7b1loe.png");
+            background-image: url("https://i.imgflip.com/7b1loe.png"); /* Immagine del boss */
 
             background-size: cover;
-            background-position-y: -30px;
+            background-position-y: -30px; /* Alza leggermente l'immagine all'interno del div */
             background-repeat: no-repeat;
-            position: absolute;
-            bottom: unset;
+            position: absolute; /* Posizionamento assoluto per poterlo muovere liberamente */
+            bottom: unset; /* Assicura che non sia ancorato in basso */
 
 
 
         }
 
+        /* Stile per il cannone/navicella del giocatore */
         #gun {
             width: 300px;
             height: 200px;
             margin: 0;
-            background-image: url("https://openclipart.org/image/2000px/324536");
+            background-image: url("https://openclipart.org/image/2000px/324536"); /* Immagine dell'arma */
             background-size: cover;
             background-repeat: no-repeat;
 
 
-            position: absolute;
-            bottom: 8px;
-            left: 16px;
+            position: absolute; /* Posizionamento assoluto per il movimento orizzontale */
+            bottom: 8px; /* Ancorato a 8 pixel dal fondo dello schermo */
+            left: 16px; /* Posizione iniziale a sinistra */
 
         }
 
+        /* Stile per il blocco verde che ricarica le munizioni */
         #reload {
             width: 100px;
             height: 20px;
             background-color: green;
             position: absolute;
-            top: 0;
+            top: 0; /* Attaccato al margine superiore dello schermo */
             left: auto;
-            color: white;
+            color: white; /* Testo bianco (il numero delle munizioni) */
             text-align: center;
 
-            border-bottom-right-radius: 15px;
+            border-bottom-right-radius: 15px; /* Arrotonda gli angoli inferiori */
             border-bottom-left-radius: 15px;
 
         }
 
+        /* Stile per i proiettili sparati dal giocatore */
         div.proj {
             width: 15px;
             height: 25px;
-            border-top-right-radius: 10px;
+            border-top-right-radius: 10px; /* Punta del proiettile arrotondata */
             border-top-left-radius: 10px;
             background-color: gray;
-            position: absolute;
+            position: absolute; /* Essenziale per farli volare verso l'alto tramite coordinate */
 
         }
 
+        /* Contenitore rosso della barra della vita (lo sfondo della barra) */
         #vitatot {
             background-color: red;
             color: white;
             border-radius: 10px;
             text-align: center;
-            width: 84px;
+            width: 84px; /* Larghezza totale della barra (12px * 7 di vita) */
             /*12x7*/
-            position: sticky;
-            margin-top: 75px;
+            position: sticky; /* Rimane incollata al bersaglio */
+            margin-top: 75px; /* Posizionata verticalmente sul boss */
             margin-left: 50px;
 
         }
 
+        /* Barra verde della vita attuale (si restringe subendo danni) */
         #vita {
             background-color: green;
             color: white;
             border-radius: 10px;
-            width: inherit;
+            width: inherit; /* Eredita la larghezza iniziale dal genitore */
         }
 
+        /* Stile per la barriera marrone che blocca i colpi */
         #barrier {
             background-color: brown;
             border-radius: 15px;
-            width: 25vw;
+            width: 25vw; /* Occupa il 25% della larghezza dello schermo (Viewport Width) */
             height: 20px;
             position: absolute;
 
         }
 
+        /* Contenitore invisibile per i bottoni touch su schermo */
         #comandi {
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 100vw;
+            width: 100vw; /* Largo quanto tutto lo schermo */
             height: 300px;
 
         }
 
+        /* Stile condiviso per tutti i pulsanti touch */
         #leftbtn,
         #rightbtn,
         #firebtn,
@@ -122,6 +133,7 @@
             background-size: cover;
         }
 
+        /* Bottone per muoversi a sinistra */
         #leftbtn {
 
             position: absolute;
@@ -129,9 +141,10 @@
             left: 0;
             background-image: url("https://pngmaterial.com/dvsxyz02/uploads/blue-arrow-png.png");
 
-            transform: scale(-1);
+            transform: scale(-1); /* Ribalta orizzontalmente l'immagine della freccia verso sinistra */
         }
 
+        /* Bottone per muoversi a destra */
         #rightbtn {
 
             position: absolute;
@@ -140,6 +153,7 @@
             background-image: url("https://pngmaterial.com/dvsxyz02/uploads/blue-arrow-png.png");
         }
 
+        /* Bottone di sparo */
         #firebtn {
             position: absolute;
             top: 0;
@@ -148,23 +162,26 @@
             background-image: url("https://cdn-icons-png.flaticon.com/512/1140/1140590.png");
         }
 
+        /* Bottone per il super colpo (inizialmente invisibile) */
         #superbtn {
             position: absolute;
             top: 0;
             left: 0;
             background-image: url("https://www.shareicon.net/data/2016/11/16/854233_lightning_512x512.png");
-            visibility: hidden;
+            visibility: hidden; /* Nascosto finché non si hanno 15 colpi */
         }
     </style>
 </head>
 
 <body>
     <div id="reload">5</div>
+    
     <div id="target">
         <div id="vitatot">
             <div id="vita">7</div>
         </div>
     </div>
+    
     <div id="gun"></div>
 
     <div id="barrier"></div>
@@ -180,9 +197,11 @@
 
     <script>
 
+        // Alert disattivati per le istruzioni iniziali
         //window.alert("PER MUOVERE: 'a', 'd', '←', '→'. PER SPARARE: spazio o '↑'");
         //window.alert("Livello 3: Serviranno 7 colpi per vincere. Ricorda di ricaricarli!")
 
+        // Acquisizione degli elementi HTML per poterli manipolare con JavaScript
         let boxT = document.getElementById("target")
         let boxG = document.getElementById("gun")
         let reload = document.getElementById("reload")
@@ -192,29 +211,40 @@
         let rightbtn = document.getElementById("rightbtn")
         let firebtn = document.getElementById("firebtn")
         let superbtn = document.getElementById("superbtn")
-        let inc = 30
-        let posLeftT = 0
-        let posLeftG = window.innerWidth / 2 - 150
-        let dim = 200
-        let dimG = 300
-        let isRight = true
-        let reloadIsRight = false
-        let barrierIsRight = true
-        let posLeftR = (window.innerWidth * 3 / 4)
-        let vita = 7
-        let TBottom = window.innerHeight - boxT.getBoundingClientRect().bottom
-        let barrieraWidth = window.innerWidth / 4
-        let barrieraBottom = TBottom - 30
-        let barrieraLeft = window.innerWidth / 2 - barrieraWidth / 2
+        
+        // Dichiarazione delle variabili di gioco e posizionamento
+        let inc = 30 // Quantità di pixel per ogni spostamento (velocità)
+        let posLeftT = 0 // Posizione iniziale X del bersaglio
+        let posLeftG = window.innerWidth / 2 - 150 // Posizione iniziale X dell'arma (al centro dello schermo)
+        let dim = 200 // Larghezza del bersaglio per i calcoli
+        let dimG = 300 // Larghezza dell'arma
+        let isRight = true // Direzione iniziale bersaglio (verso destra)
+        let reloadIsRight = false // Direzione iniziale blocco ricarica (verso sinistra)
+        let barrierIsRight = true // Direzione iniziale barriera (verso destra)
+        let posLeftR = (window.innerWidth * 3 / 4) // Posizione X di partenza del blocco ricarica (a 3/4 dello schermo)
+        let vita = 7 // Punti vita iniziali del bersaglio
+        
+        // Calcolo delle posizioni Y (verticali) sottraendo le posizioni dall'altezza totale della finestra
+        let TBottom = window.innerHeight - boxT.getBoundingClientRect().bottom // Distanza tra fondo schermo e base del bersaglio
+        let barrieraWidth = window.innerWidth / 4 // Larghezza barriera calcolata dinamicamente
+        let barrieraBottom = TBottom - 30 // Barriera posizionata 30px sotto il bersaglio
+        let barrieraLeft = window.innerWidth / 2 - barrieraWidth / 2 // Barriera posizionata al centro dello schermo inizialmente
+        
+        // Avvio del loop di movimento del bersaglio ogni 100 millisecondi
         let boxTInterval = window.setInterval(sposta, 100)
-        let proiettili = 5
-        let superP = false
+        
+        // Variabili di stato delle munizioni
+        let proiettili = 5 // Munizioni di partenza
+        let superP = false // Stato del super colpo (disattivo)
 
+        // Variabili per il tracciamento delle statistiche di fine partita
         let timer = 0;
         let colpiSparati = 0
         let superUtilizzate = 0
+        // Intervallo che incrementa il timer di 1 ogni 1000ms (1 secondo)
         let timerInterval = window.setInterval(function () { timer++; }, 1000);
 
+        // Applicazione dei valori iniziali agli elementi DOM
         reload.style.left = posLeftR + "px"
         barriera.width = barrieraWidth + "px"
         barriera.style.left = barrieraLeft + "px"
@@ -225,14 +255,17 @@
 
         /**********************/
 
+        // Blocco per l'animazione dello sfondo via JavaScript (oltre a quella CSS)
         let body = document.body;
         let scrollSpeed = 1; // Velocità di scorrimento
 
+        // Funzione per muovere la Y del background
         function scrollBackground() {
             let currentPosition = parseInt(window.getComputedStyle(body).backgroundPositionY);
             body.style.backgroundPositionY = (currentPosition + scrollSpeed) + "px";
         }
 
+        // Avvia lo scroll dello sfondo ogni 50 millisecondi
         setInterval(scrollBackground, 50); // Esegui la funzione ogni 50ms
 
 
@@ -240,13 +273,16 @@
 
         /*******************************/
 
-
+        // Chiede all'utente tramite prompt del browser se vuole la UI touch
         if (!confirm("Vuoi usare i comandi a schermo?")) {
+            // Se clicca "Annulla", i pulsanti vengono rimossi dall'HTML
             leftbtn.remove()
             rightbtn.remove()
             firebtn.remove()
             superbtn.remove()
         }
+        
+        // Mappa i bottoni touch ai rispettivi tasti della tastiera
         const keyMap = {
             leftbtn: "ArrowLeft",
             rightbtn: "ArrowRight",
@@ -254,25 +290,25 @@
             superbtn: "e"
         };
 
-        // Funzione per generare un evento keydown
+        // Funzione per simulare la pressione di un tasto quando si tocca lo schermo
         function triggerKeyEvent(key) {
             let event = new KeyboardEvent("keydown", {
                 key: key,
                 code: key,
                 bubbles: true
             });
-            document.dispatchEvent(event); // Simula la pressione del tasto sulla tastiera
+            document.dispatchEvent(event); // Dispara l'evento verso il documento come se fosse stato premuto fisicamente
         }
 
-        // Assegna il listener touch ai bottoni
+        // Assegna l'evento touchstart ad ogni bottone
         [leftbtn, rightbtn, firebtn, superbtn].forEach(btn => {
             btn.addEventListener("touchstart", (event) => {
-                let key = keyMap[event.target.id]; // Recupera il tasto associato
+                let key = keyMap[event.target.id]; // Recupera la mappatura del tasto
                 if (key) {
-                    triggerKeyEvent(key);
+                    triggerKeyEvent(key); // Avvia la simulazione del tasto
                     console.log(`Simulato keydown: ${key}`);
                 }
-                event.preventDefault(); // Evita il doppio trigger con il click
+                event.preventDefault(); // Impedisce il comportamento di default del browser al tocco
             });
         });
 
@@ -281,31 +317,37 @@
 
         /*************************/
 
+        // Funzione che gestisce il movimento del bersaglio (boss)
         function sposta() {
 
-
-
+            // Se sta andando a destra e non ha toccato il bordo destro dello schermo
             if (isRight && posLeftT + dim + inc < window.innerWidth) {
 
-                posLeftT += 30
+                posLeftT += 30 // Muovi a destra di 30px
+                // Se toccando il limite sfora lo schermo, inverte la direzione
                 if (posLeftT + dim + inc >= window.innerWidth) {
                     isRight = false
                 }
 
             }
+            // Altrimenti se sta andando a sinistra e non tocca il bordo sinistro
             else if (!isRight && posLeftT - inc > 0) {
 
                 isRight = false
-                posLeftT -= 30
+                posLeftT -= 30 // Muovi a sinistra di 30px
+                // Se tocca lo zero, inverte la direzione verso destra
                 if (posLeftT - inc <= 0) isRight = true
 
             }
 
+            // Applica la nuova posizione all'elemento HTML
             boxT.style.left = posLeftT + "px"
         }
 
 
+        // Funzione che gestisce il movimento orizzontale del blocco di ricarica
         function spostarefill() {
+            // Logica identica alla funzione 'sposta', ma muove di 100px alla volta
             if (reloadIsRight && posLeftR + 100 + 100 < window.innerWidth) {
 
                 posLeftR += 100
@@ -325,7 +367,9 @@
             reload.style.left = posLeftR + "px"
         }
 
+        // Funzione che gestisce il movimento della barriera marrone
         function spostaBarriera() {
+            // Logica di rimbalzo sui bordi schermo
             if (barrierIsRight && barrieraLeft + barrieraWidth + 100 < window.innerWidth) {
 
                 barrieraLeft += 100
@@ -346,118 +390,144 @@
         }
 
 
-        window.setInterval(spostarefill, 1500)
-        window.setInterval(spostaBarriera, 150)
+        // Avvia i loop di movimento per la ricarica e la barriera con tempistiche diverse
+        window.setInterval(spostarefill, 1500) // Ricarica si muove ogni 1,5 secondi
+        window.setInterval(spostaBarriera, 150) // Barriera si muove ogni 150ms
 
+        // Intervallo di recupero vita del boss: ogni 20 secondi (20000ms)
         window.setInterval(function () {
-            if (vita < 7 && vita > 0) {
-
-                vita += 1
-                vitaBar.style.width = 12 * vita + "px"
-                vitaBar.textContent = vita + ""
+            if (vita < 7 && vita > 0) { // Rigenera solo se la vita è tra 1 e 6
+                
+                vita += 1 // Aumenta di 1
+                vitaBar.style.width = 12 * vita + "px" // Ricalcola la larghezza della barra visiva (12px per ogni punto vita)
+                vitaBar.textContent = vita + "" // Aggiorna il testo all'interno della barra
             }
 
         }, 20000)
 
 
 
+        // Event Listener principale: ascolta tutto ciò che viene premuto sulla tastiera (o simulato dal touch)
+        // NOTA BUG: Manca il parametro (event) nella dichiarazione della funzione, causando un uso implicito della variabile globale
         document.addEventListener("keydown", function () {
+            
+            // Gestione movimento del cannone verso Destra
             if ((event.key === "d" || event.key === "ArrowRight") && posLeftG + dimG + inc < window.innerWidth) {
 
-                posLeftG += 30
+                posLeftG += 30 // Sposta a destra di 30px se non sfora
 
-
-
+            // Gestione movimento verso Sinistra
             } if ((event.key === "a" || event.key === "ArrowLeft") && posLeftG - inc > 0) {
-                posLeftG -= 30
+                posLeftG -= 30 // Sposta a sinistra di 30px se non sfora
 
             }
 
 
 
+            // Gestione del tasto Super Colpo ('e')
             if (event.key === "e") {
-
+                // Si attiva solo se ci sono almeno 15 proiettili
                 if (proiettili >= 15) {
-                    superP = true
-                    superUtilizzate += 1
-                    reload.style.backgroundColor = "purple"
+                    superP = true // Attiva lo status "Super" per il prossimo colpo
+                    superUtilizzate += 1 // Incrementa statistica super usate
+                    reload.style.backgroundColor = "purple" // Colora la casella di ricarica di viola per feedback visivo
                 }
             }
 
+            // Gestione dello Sparo (Spazio o Freccia Su)
             if (event.keyCode === 32 || event.key === "ArrowUp") { //Spacebar
 
-                let posBottom = 204
-                let posLeftP = posLeftG + 145
+                let posBottom = 204 // Altezza iniziale del proiettile (sopra l'arma)
+                let posLeftP = posLeftG + 145 // Centra il proiettile calcolando la X del cannone + 145px
 
 
 
+                // Crea fisicamente l'elemento <div> per il proiettile
                 var proiettile = document.createElement('div');
-                proiettile.className = "proj"
+                proiettile.className = "proj" // Assegna la classe CSS
 
-                proiettile.style.left = posLeftP + "px"
+                proiettile.style.left = posLeftP + "px" // Posiziona orizzontalmente
 
-                proiettile.style.bottom = posBottom + "px"
-                document.body.appendChild(proiettile);
+                proiettile.style.bottom = posBottom + "px" // Posiziona verticalmente
+                document.body.appendChild(proiettile); // Inserisce il proiettile nella pagina
 
+                // Condizione di Game Over: sparare con 0 o meno proiettili
                 if (proiettili <= 0) {
 
+                    // Cambia l'immagine dell'arma con un'esplosione
                     boxG.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
-                    clearInterval(timerInterval)
+                    clearInterval(timerInterval) // Ferma il timer
 
+                    // Mostra l'alert di fine partita dopo 500ms e ricarica la pagina
                     setTimeout(function () {
                         window.alert("GAME OVER...\nTempo totale: " + timer + "s\nColpi sparati: " + colpiSparati + "\nSuper usate: " + superUtilizzate)
                         window.location.reload();
                     }, 500)
 
-                    proiettile.remove();
+                    proiettile.remove(); // Rimuove il proiettile vuoto per non farlo volare
 
-                } else if (superP) proiettili = parseInt(proiettili / 3, 10)
-                else proiettili--
+                } else if (superP) proiettili = parseInt(proiettili / 3, 10) // Se il colpo è super, i proiettili rimasti vengono divisi per 3
+                else proiettili-- // Altrimenti si scala solo 1 proiettile normale
 
-                colpiSparati += 1
+                colpiSparati += 1 // Incrementa contatore colpi
 
 
 
+                // Modifica visiva del proiettile se il colpo è Super
                 if (superP) {
-                    proiettile.style.height = 50 + "px"
-                    proiettile.style.backgroundColor = "gold"
+                    proiettile.style.height = 50 + "px" // Diventa più lungo
+                    proiettile.style.backgroundColor = "gold" // Diventa dorato
                 }
 
+                // Avvia il loop di volo del singolo proiettile sparato (ogni 10 millisecondi)
                 let proiettileInterval = window.setInterval(function () {
+                    
+                    // Movimento del proiettile verso l'alto (+10px alla volta) finché non esce dallo schermo
                     if (posBottom + 10 < window.innerHeight) {
                         posBottom += 10
                     } else {
+                        // Se esce dallo schermo in alto, il proiettile viene distrutto e il loop si ferma
                         proiettile.remove()
                         clearInterval(proiettileInterval)
                     }
 
+                    // Ricalcolo continuo delle coordinate Y del boss e della scatola munizioni per i controlli di collisione
                     let TBottom = window.innerHeight - boxT.getBoundingClientRect().bottom
                     let reloadBottom = window.innerHeight - reload.getBoundingClientRect().bottom;
 
+                    // CONTROLLO COLLISIONE: BARRIERA
+                    // Verifica se le coordinate del proiettile incrociano la barriera
                     if (posBottom >= barrieraBottom && posLeftP >= barrieraLeft && posLeftP <= barrieraLeft + barrieraWidth) {
-                        if (!superP) {
+                        if (!superP) { // Se NON è un super colpo, il proiettile si distrugge contro la barriera
                             proiettile.remove()
                             clearInterval(proiettileInterval);
                         }
+                        // NOTA: Se è superP, ignora questo blocco e passa attraverso
                     }
 
+                    // CONTROLLO COLLISIONE: BERSAGLIO/BOSS
+                    // Verifica se il proiettile entra nelle coordinate del target
                     if (posBottom >= TBottom && posLeftP >= posLeftT - 15 && posLeftP <= posLeftT + 200 && posBottom <= TBottom + 10) {//DIFF 1
 
+                        // CONDIZIONE DI VITTORIA: Se i punti vita erano 1 o meno prima di essere colpiti
                         if (vita <= 1) {
-                            proiettile.style.backgroundColor = "red"
-                            vitaBar.remove();
+                            proiettile.style.backgroundColor = "red" // Colora di rosso
+                            vitaBar.remove(); // Distrugge la barra della vita
+                            // Sostituisce il boss con un'esplosione
                             boxT.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
                             boxT.style.backgroundPositionY = "0px";
                             proiettile.remove()
 
 
-                            clearInterval(boxTInterval);
-                            clearInterval(proiettileInterval);
+                            clearInterval(boxTInterval); // Ferma il movimento del boss
+                            clearInterval(proiettileInterval); // Ferma il proiettile
+                            // Modifica l'intero sfondo della pagina indicando la vittoria
                             document.documentElement.style.backgroundImage = "url(\"https://t4.ftcdn.net/jpg/11/45/93/75/360_F_1145937547_ZH6SvZGKQo5J5CSIZP4iIhNaKbBT1jWo.jpg\")"
                             document.documentElement.style.backgroundSize = "110%"
                             document.documentElement.style.backgroundRepeat = "repeat"
 
 
+                            // Mostra il popup di vittoria con le statistiche dopo mezzo secondo, poi ricarica
                             setTimeout(function () {
                                 window.alert("COMPLIMENTI, HAI VINTO!\nTempo totale: " + timer + "s\nColpi sparati: " + colpiSparati + "\nSuper usate: " + superUtilizzate)
 
@@ -465,56 +535,62 @@
                             }, 500)
 
                         } else {
+                            // Se il target non muore con questo colpo:
 
                             if (superP) {
-                                vita -= 2
+                                vita -= 2 // Il colpo speciale toglie 2 cuori
                             }
-                            else vita--
+                            else vita-- // Il colpo normale toglie 1 cuore
 
-                            superP = false
+                            superP = false // Disattiva lo status super globale
 
-                            proiettile.remove()
-                            clearInterval(proiettileInterval);
+                            proiettile.remove() // Elimina il proiettile che ha colpito il bersaglio
+                            clearInterval(proiettileInterval); // Ferma l'intervallo
 
 
+                            // Aggiorna visivamente la larghezza e il numero della barra della vita
                             vitaBar.style.width = 12 * vita + "px"
                             vitaBar.textContent = vita + ""
                         }
 
-                    } if (posBottom > TBottom + 10) {
-                        proiettile.style.backgroundColor = "aliceblue"
+                    } 
+                    // Se il proiettile sorpassa il bersaglio senza averlo colpito
+                    if (posBottom > TBottom + 10) {
+                        proiettile.style.backgroundColor = "aliceblue" // Cambia colore per indicare il "miss"
 
-                        superP = false
-
-
-
-
+                        superP = false // Annulla il super colpo per sicurezza
                     }
 
+                    // CONTROLLO COLLISIONE: RICARICA MUNIZIONI
+                    // Verifica se il proiettile incrocia le coordinate del blocco '#reload' in cima
                     if (posBottom >= reloadBottom && posLeftP >= posLeftR - 15 && posLeftP <= posLeftR + 100) {
                         proiettile.remove()
                         clearInterval(proiettileInterval);
 
-                        proiettili += 5
+                        proiettili += 5 // Aggiunge 5 munizioni
 
-                        superP = false
+                        superP = false // Disattiva il super
 
                     }
 
 
+                    // Applica l'altezza calcolata all'elemento HTML per farlo muovere fisicamente
                     proiettile.style.bottom = posBottom + "px"
+                    
+                    // Aggiorna in tempo reale il numeretto testuale delle munizioni
                     reload.textContent = proiettili + ""
 
+                    // Gestione visiva (colori del blocco ricarica e disponibilità del pulsante Super) in base alle munizioni residue
                     if (proiettili <= 1) {
-                        reload.style.backgroundColor = "red"
+                        reload.style.backgroundColor = "red" // Colore d'emergenza se hai 1 colpo o meno
                         superbtn.style.visibility = "hidden"
                     }
                     else if (proiettili >= 15) {
-                        reload.style.backgroundColor = "blue"
-                        superbtn.style.visibility = "visible"
+                        reload.style.backgroundColor = "blue" // Diventa blu quando puoi usare il super
+                        superbtn.style.visibility = "visible" // Fa apparire il tasto fulmine su mobile
                     }
                     else {
-                        reload.style.backgroundColor = "green"
+                        reload.style.backgroundColor = "green" // Verde standard tra 2 e 14 colpi
                         superbtn.style.visibility = "hidden"
                     }
 
@@ -522,6 +598,7 @@
 
             }
 
+            // Riapplica costantemente la posizione orizzontale dell'arma in base al calcolo dei tasti premuti
             boxG.style.left = posLeftG + "px"
         }
 
