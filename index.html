@@ -5,7 +5,7 @@
     <style>
         /* Stile per il corpo della pagina: imposta l'immagine di sfondo del cielo */
         body {
-            background-image: url("https://static3.depositphotos.com/1003791/163/i/450/depositphotos_1633171-stock-photo-blue-sky-seamless-pattern.jpg");
+            background-image: url("img/blue-sky.jpeg");
             background-size: cover; /* Fa in modo che l'immagine copra tutto lo schermo */
             animation: scrollBackground 10s linear infinite; /* Avvia l'animazione CSS dello sfondo in loop infinito */
         }
@@ -26,7 +26,7 @@
             width: 200px; /* Larghezza del bersaglio */
             height: 200px; /* Altezza del bersaglio */
             margin: 0;
-            background-image: url("https://i.imgflip.com/7b1loe.png"); /* Immagine del boss */
+            background-image: url("img/balloon.png"); /* Immagine del boss */
 
             background-size: cover;
             background-position-y: -30px; /* Alza leggermente l'immagine all'interno del div */
@@ -43,7 +43,7 @@
             width: 300px;
             height: 200px;
             margin: 0;
-            background-image: url("https://openclipart.org/image/2000px/324536"); /* Immagine dell'arma */
+            background-image: url("img/plane.png"); /* Immagine dell'arma */
             background-size: cover;
             background-repeat: no-repeat;
 
@@ -139,7 +139,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            background-image: url("https://pngmaterial.com/dvsxyz02/uploads/blue-arrow-png.png");
+            background-image: url("img/arrow.png");
 
             transform: scale(-1); /* Ribalta orizzontalmente l'immagine della freccia verso sinistra */
         }
@@ -150,7 +150,7 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            background-image: url("https://pngmaterial.com/dvsxyz02/uploads/blue-arrow-png.png");
+            background-image: url("img/arrow.png");
         }
 
         /* Bottone di sparo */
@@ -159,7 +159,7 @@
             top: 0;
 
             right: 0;
-            background-image: url("https://cdn-icons-png.flaticon.com/512/1140/1140590.png");
+            background-image: url("img/proiettile.png");
         }
 
         /* Bottone per il super colpo (inizialmente invisibile) */
@@ -167,7 +167,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            background-image: url("https://www.shareicon.net/data/2016/11/16/854233_lightning_512x512.png");
+            background-image: url("img/lightning.png");
             visibility: hidden; /* Nascosto finché non si hanno 15 colpi */
         }
     </style>
@@ -275,14 +275,13 @@
 
         /*******************************/
 
-        // Chiede all'utente tramite prompt del browser se vuole la UI touch /*BYPASSATO*/
-        //if (!confirm("Vuoi usare i comandi a schermo?")) {
+        // Chiede all'utente tramite prompt del browser se vuole la UI touch
+        if (!confirm("Vuoi usare i comandi a schermo?")) {
             // Se clicca "Annulla", i pulsanti vengono rimossi dall'HTML
             leftbtn.remove()
             rightbtn.remove()
             firebtn.remove()
-            superbtn.remove()
-        //}
+        }
         
         // Mappa i bottoni touch ai rispettivi tasti della tastiera
         const keyMap = {
@@ -398,7 +397,7 @@
             console.log("CHIAMATA GAMEOVER")
             
             // Cambia l'immagine dell'arma con un'esplosione
-            boxG.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
+            boxG.style.backgroundImage = "url(\"img/explosion.png\")"
             clearInterval(timerInterval) // Ferma il timer
             
 
@@ -537,7 +536,7 @@
                             proiettile.style.backgroundColor = "red" // Colora di rosso
                             vitaBar.remove(); // Distrugge la barra della vita
                             // Sostituisce il boss con un'esplosione
-                            boxT.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
+                            boxT.style.backgroundImage = "url(\"img/explosion.png\")"
                             boxT.style.backgroundPositionY = "0px";
                             proiettile.remove()
                             
@@ -546,7 +545,7 @@
                             clearInterval(boxTInterval); // Ferma il movimento del boss
                             clearInterval(proiettileInterval); // Ferma il proiettile
                             // Modifica l'intero sfondo della pagina indicando la vittoria
-                            document.documentElement.style.backgroundImage = "url(\"https://t4.ftcdn.net/jpg/11/45/93/75/360_F_1145937547_ZH6SvZGKQo5J5CSIZP4iIhNaKbBT1jWo.jpg\")"
+                            document.documentElement.style.backgroundImage = "url(\"img/sky_win.jpg\")"
                             document.documentElement.style.backgroundSize = "110%"
                             document.documentElement.style.backgroundRepeat = "repeat"
 
