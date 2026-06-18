@@ -243,6 +243,8 @@
         let superUtilizzate = 0
         // Intervallo che incrementa il timer di 1 ogni 1000ms (1 secondo)
         let timerInterval = window.setInterval(function () { timer++; }, 1000);
+        //Variabile che ci dice se la funzione gameover è stata già chiamata
+        let alreadyOver=false
 
         // Applicazione dei valori iniziali agli elementi DOM
         reload.style.left = posLeftR + "px"
@@ -273,14 +275,14 @@
 
         /*******************************/
 
-        // Chiede all'utente tramite prompt del browser se vuole la UI touch
-        if (!confirm("Vuoi usare i comandi a schermo?")) {
+        // Chiede all'utente tramite prompt del browser se vuole la UI touch /*BYPASSATO*/
+        //if (!confirm("Vuoi usare i comandi a schermo?")) {
             // Se clicca "Annulla", i pulsanti vengono rimossi dall'HTML
             leftbtn.remove()
             rightbtn.remove()
             firebtn.remove()
             superbtn.remove()
-        }
+        //}
         
         // Mappa i bottoni touch ai rispettivi tasti della tastiera
         const keyMap = {
@@ -388,6 +390,34 @@
 
             barriera.style.left = barrieraLeft + "px"
         }
+        
+
+        function gameOver(){
+            if(alreadyOver || proiettili > 0) return
+
+            console.log("CHIAMATA GAMEOVER")
+            
+            // Cambia l'immagine dell'arma con un'esplosione
+            boxG.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
+            clearInterval(timerInterval) // Ferma il timer
+            
+
+            // Mostra l'alert di fine partita dopo 500ms e ricarica la pagina
+            setTimeout(function () {
+                window.alert("GAME OVER...\nTempo totale: " + timer + "s\nColpi sparati: " + colpiSparati + "\nSuper usate: " + superUtilizzate)
+                window.location.reload();
+            }, 500)
+
+            try{
+                proiettile.remove();
+                 // Rimuove il proiettile vuoto per non farlo volare
+            }catch(error){};
+
+            alreadyOver = true
+
+            return
+                
+        }
 
 
         // Avvia i loop di movimento per la ricarica e la barriera con tempistiche diverse
@@ -405,11 +435,22 @@
 
         }, 20000)
 
+        window.setInterval(function () {
+
+            try{
+                if(proiettili == 0){
+                    setTimeout(() => {
+                        gameOver()
+                    }, 1000);
+                }
+            }catch(error){}
+            
+        }, 100)
+
 
 
         // Event Listener principale: ascolta tutto ciò che viene premuto sulla tastiera (o simulato dal touch)
-        // NOTA BUG: Manca il parametro (event) nella dichiarazione della funzione, causando un uso implicito della variabile globale
-        document.addEventListener("keydown", function () {
+        document.addEventListener("keydown", function (event) {
             
             // Gestione movimento del cannone verso Destra
             if ((event.key === "d" || event.key === "ArrowRight") && posLeftG + dimG + inc < window.innerWidth) {
@@ -422,8 +463,6 @@
 
             }
 
-
-
             // Gestione del tasto Super Colpo ('e')
             if (event.key === "e") {
                 // Si attiva solo se ci sono almeno 15 proiettili
@@ -435,12 +474,10 @@
             }
 
             // Gestione dello Sparo (Spazio o Freccia Su)
-            if (event.keyCode === 32 || event.key === "ArrowUp") { //Spacebar
+            if ((event.keyCode === 32 || event.key === "ArrowUp") && proiettili>0) { //Spacebar
 
                 let posBottom = 204 // Altezza iniziale del proiettile (sopra l'arma)
                 let posLeftP = posLeftG + 145 // Centra il proiettile calcolando la X del cannone + 145px
-
-
 
                 // Crea fisicamente l'elemento <div> per il proiettile
                 var proiettile = document.createElement('div');
@@ -451,27 +488,26 @@
                 proiettile.style.bottom = posBottom + "px" // Posiziona verticalmente
                 document.body.appendChild(proiettile); // Inserisce il proiettile nella pagina
 
-                // Condizione di Game Over: sparare con 0 o meno proiettili
-                if (proiettili <= 0) {
+                if(proiettili>0){
+                    if(superP) proiettili = parseInt(proiettili / 3, 10)
+                    else proiettili--
+                    colpiSparati++
+                }else{
+                    gameOver();
+                    console.log("PROIETTILI>0")
+                } 
 
-                    // Cambia l'immagine dell'arma con un'esplosione
-                    boxG.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
-                    clearInterval(timerInterval) // Ferma il timer
-
-                    // Mostra l'alert di fine partita dopo 500ms e ricarica la pagina
-                    setTimeout(function () {
-                        window.alert("GAME OVER...\nTempo totale: " + timer + "s\nColpi sparati: " + colpiSparati + "\nSuper usate: " + superUtilizzate)
-                        window.location.reload();
-                    }, 500)
-
-                    proiettile.remove(); // Rimuove il proiettile vuoto per non farlo volare
+                /*// Condizione di Game Over: sparare con 0 o meno proiettili
+                if (proiettili < 1) {
+                    console.log("PROIETTILI<=0");
+                    gameOver();
 
                 } else if (superP) proiettili = parseInt(proiettili / 3, 10) // Se il colpo è super, i proiettili rimasti vengono divisi per 3
                 else proiettili-- // Altrimenti si scala solo 1 proiettile normale
 
                 colpiSparati += 1 // Incrementa contatore colpi
 
-
+*/
 
                 // Modifica visiva del proiettile se il colpo è Super
                 if (superP) {
@@ -489,6 +525,7 @@
                         // Se esce dallo schermo in alto, il proiettile viene distrutto e il loop si ferma
                         proiettile.remove()
                         clearInterval(proiettileInterval)
+                    
                     }
 
                     // Ricalcolo continuo delle coordinate Y del boss e della scatola munizioni per i controlli di collisione
@@ -500,7 +537,13 @@
                     if (posBottom >= barrieraBottom && posLeftP >= barrieraLeft && posLeftP <= barrieraLeft + barrieraWidth) {
                         if (!superP) { // Se NON è un super colpo, il proiettile si distrugge contro la barriera
                             proiettile.remove()
+                            
                             clearInterval(proiettileInterval);
+                            /*if(proiettili<1){
+                                console.log("BARRIERA P<1");
+                                 gameOver();
+                            }*/
+
                         }
                         // NOTA: Se è superP, ignora questo blocco e passa attraverso
                     }
@@ -517,6 +560,7 @@
                             boxT.style.backgroundImage = "url(\"https://png.pngtree.com/png-clipart/20230917/original/pngtree-flame-burning-sparks-splash-broken-bomb-explosion-realistic-photography-decorative-pattern-png-image_12297991.png\")"
                             boxT.style.backgroundPositionY = "0px";
                             proiettile.remove()
+                            
 
 
                             clearInterval(boxTInterval); // Ferma il movimento del boss
@@ -545,26 +589,25 @@
                             superP = false // Disattiva lo status super globale
 
                             proiettile.remove() // Elimina il proiettile che ha colpito il bersaglio
+                            
                             clearInterval(proiettileInterval); // Ferma l'intervallo
-
+                            /*if(proiettili<1){
+                                console.log("SCONFITTA");
+                                gameOver()
+                            }*/
 
                             // Aggiorna visivamente la larghezza e il numero della barra della vita
                             vitaBar.style.width = 12 * vita + "px"
                             vitaBar.textContent = vita + ""
                         }
 
-                    } 
-                    // Se il proiettile sorpassa il bersaglio senza averlo colpito
-                    if (posBottom > TBottom + 10) {
-                        proiettile.style.backgroundColor = "aliceblue" // Cambia colore per indicare il "miss"
-
-                        superP = false // Annulla il super colpo per sicurezza
                     }
 
                     // CONTROLLO COLLISIONE: RICARICA MUNIZIONI
                     // Verifica se il proiettile incrocia le coordinate del blocco '#reload' in cima
                     if (posBottom >= reloadBottom && posLeftP >= posLeftR - 15 && posLeftP <= posLeftR + 100) {
                         proiettile.remove()
+                        
                         clearInterval(proiettileInterval);
 
                         proiettili += 5 // Aggiunge 5 munizioni
@@ -573,6 +616,15 @@
 
                     }
 
+                    // Se il proiettile sorpassa il bersaglio senza averlo colpito
+                    if (posBottom > TBottom + 10) {
+                        proiettile.style.backgroundColor = "aliceblue" // Cambia colore per indicare il "miss"
+                        /*if(proiettili<1){
+                            console.log("SORPASSO");
+                            gameOver()
+                        }*/
+                        superP = false // Annulla il super colpo per sicurezza
+                    }
 
                     // Applica l'altezza calcolata all'elemento HTML per farlo muovere fisicamente
                     proiettile.style.bottom = posBottom + "px"
@@ -595,7 +647,6 @@
                     }
 
                 }, 10)
-
             }
 
             // Riapplica costantemente la posizione orizzontale dell'arma in base al calcolo dei tasti premuti
