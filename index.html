@@ -492,22 +492,7 @@
                     if(superP) proiettili = parseInt(proiettili / 3, 10)
                     else proiettili--
                     colpiSparati++
-                }else{
-                    gameOver();
-                    console.log("PROIETTILI>0")
-                } 
-
-                /*// Condizione di Game Over: sparare con 0 o meno proiettili
-                if (proiettili < 1) {
-                    console.log("PROIETTILI<=0");
-                    gameOver();
-
-                } else if (superP) proiettili = parseInt(proiettili / 3, 10) // Se il colpo è super, i proiettili rimasti vengono divisi per 3
-                else proiettili-- // Altrimenti si scala solo 1 proiettile normale
-
-                colpiSparati += 1 // Incrementa contatore colpi
-
-*/
+                }
 
                 // Modifica visiva del proiettile se il colpo è Super
                 if (superP) {
@@ -536,13 +521,8 @@
                     // Verifica se le coordinate del proiettile incrociano la barriera
                     if (posBottom >= barrieraBottom && posLeftP >= barrieraLeft && posLeftP <= barrieraLeft + barrieraWidth) {
                         if (!superP) { // Se NON è un super colpo, il proiettile si distrugge contro la barriera
-                            proiettile.remove()
-                            
+                            proiettile.remove()                            
                             clearInterval(proiettileInterval);
-                            /*if(proiettili<1){
-                                console.log("BARRIERA P<1");
-                                 gameOver();
-                            }*/
 
                         }
                         // NOTA: Se è superP, ignora questo blocco e passa attraverso
@@ -591,10 +571,6 @@
                             proiettile.remove() // Elimina il proiettile che ha colpito il bersaglio
                             
                             clearInterval(proiettileInterval); // Ferma l'intervallo
-                            /*if(proiettili<1){
-                                console.log("SCONFITTA");
-                                gameOver()
-                            }*/
 
                             // Aggiorna visivamente la larghezza e il numero della barra della vita
                             vitaBar.style.width = 12 * vita + "px"
@@ -619,10 +595,6 @@
                     // Se il proiettile sorpassa il bersaglio senza averlo colpito
                     if (posBottom > TBottom + 10) {
                         proiettile.style.backgroundColor = "aliceblue" // Cambia colore per indicare il "miss"
-                        /*if(proiettili<1){
-                            console.log("SORPASSO");
-                            gameOver()
-                        }*/
                         superP = false // Annulla il super colpo per sicurezza
                     }
 
